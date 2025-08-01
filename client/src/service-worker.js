@@ -19,8 +19,12 @@ clientsClaim();
 // Their URLs are injected into the manifest variable below.
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
-if (self.__WB_MANIFEST) {
-  precacheAndRoute(self.__WB_MANIFEST);
+if (self.__WB_MANIFEST && Array.isArray(self.__WB_MANIFEST)) {
+  try {
+    precacheAndRoute(self.__WB_MANIFEST);
+  } catch (error) {
+    console.warn('Service worker precaching failed:', error);
+  }
 }
 
 // Set up App Shell-style routing, so that all navigation requests
