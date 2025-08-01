@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const http = require('http');
+const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 const studentRoutes = require('./routes/students');
 const exportRoutes = require('./routes/export');
@@ -33,6 +34,17 @@ if (!fs.existsSync(uploadsDir)) {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// MongoDB Connection
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/student-id-management';
+
+mongoose.connect(MONGODB_URI)
+  .then(() => {
+    console.log('✅ Connected to MongoDB successfully');
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB connection error:', err.message);
+    console.log('⚠️  Server running without database connection');
+  });
 
 //app.get(/^((?!\/api\/).)*$/, (req, res) => {
 //  res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -45,8 +57,6 @@ app.use('/api/notices', noticeRoutes);
 app.use('/api/important-dates', importantDatesRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/security', securityRoutes);
-
-console.log('Server running without database for now');
 
 app.get('/', (req, res) => {
   res.send('Student ID Management API running');
