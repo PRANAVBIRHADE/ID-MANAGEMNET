@@ -11,7 +11,7 @@ if (!BASE_URL) {
 }
 
 const api = axios.create({
-  baseURL: BASE_URL || 'http://localhost:5000', // Fallback to localhost for development
+  baseURL: BASE_URL ? `${BASE_URL}/api` : 'http://localhost:5000/api', // Include /api prefix
 });
 
 // ✅ Attach token to every request if available
