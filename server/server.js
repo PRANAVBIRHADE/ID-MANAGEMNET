@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.get(/^((?!\/api\/).)*$/, (req, res) => {
 //  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-//});//
+//});
 
 app.use('/api/auth', authRoutes);
 app.use('/api/students', studentRoutes);
