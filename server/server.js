@@ -24,15 +24,12 @@ initializeSocket(server);
 
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Ensure uploads folder exists
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir);
 }
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/student-id-management';
@@ -46,10 +43,8 @@ mongoose.connect(MONGODB_URI)
     console.log('⚠️  Server running without database connection');
   });
 
-//app.get(/^((?!\/api\/).)*$/, (req, res) => {
-//  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-//});
-
+// API Routes - Serve these BEFORE static files
+console.log('🔧 Setting up API routes...');
 app.use('/api/auth', authRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/export', exportRoutes);
@@ -58,9 +53,22 @@ app.use('/api/important-dates', importantDatesRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/security', securityRoutes);
 
+// Static files - Serve these AFTER API routes
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Root endpoint
 app.get('/', (req, res) => {
   res.send('Student ID Management API running');
 });
 
+// Debug endpoint to test API routes
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'API routes are working!', timestamp: new Date().toISOString() });
+});
+
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`)); 
+server.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📡 API Base URL: http://localhost:${PORT}/api`);
+}); 

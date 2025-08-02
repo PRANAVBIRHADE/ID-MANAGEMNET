@@ -53,11 +53,9 @@ const sessionSchema = new mongoose.Schema({
 
 // Index for efficient querying
 sessionSchema.index({ userId: 1, isActive: 1 });
-sessionSchema.index({ sessionId: 1 });
-sessionSchema.index({ expiresAt: 1 });
 sessionSchema.index({ lastActivity: 1 });
 
-// Auto-expire sessions
+// Auto-expire sessions (this creates the expiresAt index)
 sessionSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 module.exports = mongoose.model('Session', sessionSchema); 
