@@ -1,0 +1,5 @@
+[33mcec4a0d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Fix service worker build issue by temporarily disabling registration
+[33m6088e68[m Fix API route ordering and mongoose duplicate index warnings - Reorder middleware to serve API routes before static files - Add debugging endpoints and logs - Remove duplicate index definitions in Session model
+[33mfa41a32[m Add debugging logs to API configuration to identify baseURL issue
+[33mb4e3fb4[m Fix service worker cache errors and improve error handling
+[33md387f88[m Add MongoDB connection setup and environment configuration - Add mongoose connection to server.js - Create server environment setup documentation - Fix database connection issues for production deployment
