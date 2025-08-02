@@ -806,7 +806,7 @@ export default function OperatorDashboard() {
                   <TableCell>
                     {s.photo_path ? (
                       <Avatar 
-                        src={`http://localhost:5000${s.photo_path}`} 
+                        src={`https://id-managemnet.onrender.com${s.photo_path}`} 
                         sx={{ width: 40, height: 40 }}
                         alt={s.name}
                       />

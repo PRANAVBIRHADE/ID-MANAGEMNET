@@ -19,7 +19,9 @@ export const NotificationProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      const newSocket = io('http://localhost:5000', {
+      // Use the same backend URL as the API
+      const backendURL = process.env.REACT_APP_BACKEND_URL || 'https://id-managemnet.onrender.com';
+      const newSocket = io(backendURL, {
         auth: { token }
       });
 
@@ -42,6 +44,10 @@ export const NotificationProvider = ({ children }) => {
 
       newSocket.on('disconnect', () => {
         console.log('Disconnected from notification server');
+      });
+
+      newSocket.on('connect_error', (error) => {
+        console.log('Socket connection error:', error);
       });
 
       setSocket(newSocket);
